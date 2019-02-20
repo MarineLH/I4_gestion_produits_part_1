@@ -1,0 +1,21 @@
+version: "2"
+
+services:
+  web:
+    container_name: web_container
+    build: .
+    ports:
+      - 8082:80
+    links:
+      - db
+
+  db:
+    container_name: mysql_container
+    image: mysql:5.7
+    volumes:
+      - ./database/gestion_produits.sql:/docker-entrypoint-initdb.d/gestion_produits.sql
+    ports:
+      - 3300:3300
+    environment:
+      MYSQL_DATABASE: gestion_produits
+      MYSQL_ROOT_PASSWORD: root
