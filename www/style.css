@@ -1,0 +1,44 @@
+[onClick] {
+    cursor: pointer;
+}
+
+.description {
+    font-size: 0.8em;
+    text-align: justify;
+}
+
+div > header {
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.badge.prix {
+    font-size: 1.3em;
+}
+
+img.thumb {
+    height: 200px;
+    margin: 5px;
+}
+
+div.description {
+    margin-top: 10px;
+}
+
+img.icon {
+    width: 30px;
+}
+
+div.img {
+    position: relative;
+    display: inline-block;
+}
+
+div.img img.icon.trash {
+    position: absolute;
+    z-index: 10;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
