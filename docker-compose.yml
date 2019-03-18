@@ -9,14 +9,14 @@ services:
     links:
       - db
     environment:
-      MYSQL_ROOT_PASSWORD: root
       MYSQL_HOST: db
+      MYSQL_ROOT_PASSWORD: root
 
   db:
     container_name: mysql_container
     image: mysql:5.7
-    volumes:
-      - ./database/gestion_produits.sql:/docker-entrypoint-initdb.d
     environment:
-      MYSQL_DATABASE: gestion_produits
-      MYSQL_ROOT_PASSWORD: root
+      - MYSQL_DATABASE=gestion_produits
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./database/gestion_produits.sql:/docker-entrypoint-initdb.d/
