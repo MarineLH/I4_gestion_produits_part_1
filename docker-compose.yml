@@ -19,4 +19,14 @@ services:
       - MYSQL_DATABASE=gestion_produits
       - MYSQL_ROOT_PASSWORD=root
     volumes:
-      - ./database/gestion_produits.sql:/docker-entrypoint-initdb.d/
+      - ./database/:/docker-entrypoint-initdb.d
+  
+  minio:
+    container_name: minio_container
+    image: minio/minio
+    environment:
+      MINIO_ACCESS_KEY: minioAccessKey
+      MINIO_SECRET_KEY: minioSecretKey
+    ports:
+      - "9001:9000"
+    command: server /export

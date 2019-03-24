@@ -2,6 +2,7 @@
     session_start();
     include 'connect.php';
     include 'fonctions.php';
+    include 'minio_functions.php';
     secu();
 
     if (isset($_GET['id'])) {
@@ -73,7 +74,10 @@
                             while ($ressource = mysqli_fetch_assoc($res)) {
                                 if ($ressource['RE_type'] == 'img') {
                                     echo '<div class="img">';
-                                    echo '<img src="'.$ressource['RE_url'].'" class="img-thumbnail thumb" data-id="'.$ressource['RE_id'].'">';
+                                    //echo '<img src="'.$ressource['RE_url'].'" class="img-thumbnail thumb" data-id="'.$ressource['RE_id'].'">';
+                                    $img = base64_encode(get_image($bucket_name, $ressource['RE_url'])['Body']);
+                                    echo '<img src="data:image;base64,'.$img.'" class="img-thumbnail thumb" data-id="'.$ressource['RE_id'].'">';
+
                                     echo '<img src="img/trash.svg" class="icon trash" data-id="'.$ressource['RE_id'].'">';
                                     echo '</div>';
                                 }

@@ -2,6 +2,7 @@
     session_start();
     include 'connect.php';
     include 'fonctions.php';
+    include 'minio_functions.php';
     secu();
 
     if (!isset($_GET['id']) or $_GET['id'] == '') {
@@ -62,7 +63,9 @@
             <?php
                 foreach($ressources as $ressource) {
                     if ($ressource['RE_type'] == 'img') {
-                        echo '<img src="'.$ressource['RE_url'].'" class="img-thumbnail thumb" data-id="'.$ressource['RE_id'].'">';
+                        //echo '<img src="'.$ressource['RE_url'].'" class="img-thumbnail thumb" data-id="'.$ressource['RE_id'].'">';
+                        $image = base64_encode(get_image($ressource['RE_url'])['Body']);
+                        echo '<img src="data:image;base64,'.$image.'" class="img-thumbnail thumb" data-id="'.$ressource['RE_id'].'">';
                     }
                 }
             ?>

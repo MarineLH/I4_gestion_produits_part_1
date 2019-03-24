@@ -1,6 +1,7 @@
 <?php
 
     include 'connect.php';
+    include 'minio_functions.php';
 
     $action = (isset($_POST['action'])) ? $_POST['action'] : $_GET['action'];
 
@@ -24,10 +25,10 @@
                         $extension = pathinfo($_FILES["PRO_ressources"]["name"][$key],PATHINFO_EXTENSION);
                         $md5 = md5_file($tmp_name);
                         $name = $PRO_id."-".$md5.".".$extension;
-                        $url = "uploads/$name";
-                        move_uploaded_file($tmp_name, $url);
+                        $content = file_get_contents($tmp_name);
+                        upload_image($name, $content);
 
-                        $sql = "INSERT INTO ressources (RE_type,RE_url,PRO_id) VALUES ('img','$url','$PRO_id')";
+                        $sql = "INSERT INTO ressources (RE_type,RE_url,PRO_id) VALUES ('img','$name','$PRO_id')";
                         mysqli_query($link,$sql);
 
                     }
@@ -57,10 +58,10 @@
                         $extension = pathinfo($_FILES["PRO_ressources"]["name"][$key],PATHINFO_EXTENSION);
                         $md5 = md5_file($tmp_name);
                         $name = $_POST['PRO_id']."-".$md5.".".$extension;
-                        $url = "uploads/$name";
-                        move_uploaded_file($tmp_name, $url);
+                        $content = file_get_contents($tmp_name);
+                        upload_image($name, $content);
 
-                        $sql = "INSERT INTO ressources (RE_type,RE_url,PRO_id) VALUES ('img','$url',$PRO_id)";
+                        $sql = "INSERT INTO ressources (RE_type,RE_url,PRO_id) VALUES ('img','$name',$PRO_id)";
                         mysqli_query($link,$sql);
 
                     }
@@ -77,17 +78,14 @@
         case 'supprimer_ressource':
             if(isset($_POST['RE_id'])) {
                 $RE_id = mysqli_real_escape_string($link, $_POST['RE_id']);
-
                 $sql = "SELECT * FROM ressources WHERE RE_id = $RE_id";
                 $res = mysqli_query($link, $sql);
+
                 if(mysqli_num_rows($res) > 0) {
                     $ressource = mysqli_fetch_assoc($res);
-                    
                     $sql = "DELETE FROM ressources WHERE RE_id = '$RE_id'";
                     if (mysqli_query($link, $sql)) {
-                        if (file_exists($ressource['RE_url'])) {
-                            unlink($ressource['RE_url']);
-                        }
+                        delete_objet($ressource['RE_url']);
                         echo 'OK';
                     } else {
                         echo 'NOK';
@@ -110,14 +108,13 @@
                     
                     $sql = "SELECT * FROM ressources WHERE PRO_id = $PRO_id";
                     $res = mysqli_query($link,$sql);
+
                     if (mysqli_num_rows($res) > 0) {
                         while($ressource = mysqli_fetch_assoc($res)) {
                             $RE_id = $ressource['RE_id'];
                             $sql = "DELETE FROM ressources WHERE RE_id = $RE_id";
                             if (mysqli_query($link, $sql)) {
-                                if (file_exists($ressource['RE_url'])) {
-                                    unlink($ressource['RE_url']);
-                                }
+                                delete_objet($ressource['RE_url']);
                             }
                         }
                     }
