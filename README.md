@@ -1,4 +1,4 @@
-# TP 1 - Solution Cloud
+# TP 1 - Solution Cloud - Issues #1 #2
 
 Sujet : 
 -
@@ -30,3 +30,9 @@ L'application permet de :
 **Todo :**
 
 Lancer la commande suivante : `docker-compose up -d`
+
+
+**Issue 3 - intégration dans un orchestrateur de containers**
+
+Accès à l'issue #3 : https://github.com/MarineLH/I4_gestion_produits_part_2
+
